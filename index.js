@@ -17,6 +17,7 @@ app.get('/api/genres', (req, res) => {
 
 // post a genre
 app.post('/api/genres', (req, res) => {
+    // validation
   const { error } = validateGenre(req.body); //object destructuring
   if (error) return res.status(400).send(error.details[0].message);
 
@@ -27,6 +28,33 @@ app.post('/api/genres', (req, res) => {
   genres.push(genre);
   res.send(genre);
 });
+
+// update genre
+app.put('/api/genres/:id', (req, res) => {
+    // lookup
+    const genre = genres.find(c => c.id === parseInt(req.params.id));
+    if (!genre) return res.status(404).send('The genre with the given ID was not found.');
+  
+    // validate
+    const { error } = validateGenre(req.body); 
+    if (error) return res.status(400).send(error.details[0].message);
+    
+    // update
+    genre.name = req.body.name; 
+    res.send(genre);
+  });
+  
+//   delete genre
+  app.delete('/api/genres/:id', (req, res) => {
+    const genre = genres.find(c => c.id === parseInt(req.params.id));
+    if (!genre) return res.status(404).send('The genre with the given ID was not found.');
+  
+    const index = genres.indexOf(genre);
+    genres.splice(index, 1);
+  
+    res.send(genre);
+  });
+  
 
 // use joi to validate genre sent by client
 function validateGenre(genre) {
