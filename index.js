@@ -1,3 +1,5 @@
+const Joi = require('joi');
+Joi.objectId = require('joi-objectid')(Joi);
 const mongoose = require('mongoose')
 const Fawn = require('fawn')
 const express = require('express');
@@ -8,6 +10,7 @@ const rentals = require('./routes/rentals');
 app = express();
 
 Fawn.init(mongoose);
+
 // connecting to db
 mongoose.connect('mongodb://localhost/vidly')
     .then(() => debug('connected to db'))
