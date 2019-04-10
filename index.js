@@ -1,4 +1,5 @@
 const mongoose = require('mongoose')
+const Fawn = require('fawn')
 const express = require('express');
 const genres = require('./routes/genres')
 const customers = require('./routes/customers')
@@ -6,6 +7,7 @@ const movies = require('./routes/movies');
 const rentals = require('./routes/rentals');
 app = express();
 
+Fawn.init(mongoose);
 // connecting to db
 mongoose.connect('mongodb://localhost/vidly')
     .then(() => debug('connected to db'))
