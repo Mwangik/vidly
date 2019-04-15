@@ -1,7 +1,8 @@
 const auth = require('../middleware/auth');
-const mongoose = require('mongoose')
-const express = require('express')
-const {Customer,validate} = require('../models/customer')
+const admin = require('../middleware/auth');
+const mongoose = require('mongoose');
+const express = require('express');
+const {Customer,validate} = require('../models/customer');
 const router = express.Router()
 
 
@@ -43,7 +44,7 @@ const router = express.Router()
     });
     
   //   delete customer
-    router.delete('/:id', async (req, res) => {
+    router.delete('/:id',[auth, admin], async (req, res) => {
       const customer = await Customer.findByIdAndRemove(req.params.id);
       if (!customer) return res.status(404).send('The customer with the given ID was not found.');
         
