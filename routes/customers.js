@@ -1,3 +1,4 @@
+const auth = require('../middleware/auth');
 const mongoose = require('mongoose')
 const express = require('express')
 const {Customer,validate} = require('../models/customer')
@@ -11,7 +12,7 @@ const router = express.Router()
   });
   
   // post a customer
-  router.post('/', async (req, res) => {
+  router.post('/', auth, async (req, res) => {
       // validation
     const { error } = validate(req.body); //object destructuring
     if (error) return res.status(400).send(error.details[0].message);
@@ -26,7 +27,7 @@ const router = express.Router()
   });
   
   // update customer
-  router.put('/:id', async (req, res) => {
+  router.put('/:id', auth, async (req, res) => {
       // validate
       const { error } = validate(req.body); 
       if (error) return res.status(400).send(error.details[0].message);
